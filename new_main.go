@@ -16,6 +16,7 @@ const (
 )
 //noinspection ALL
 type details struct {
+	new_id			string `json:"new_id"`
 	name           string `json:"name"`
 	source         string `json:"source"`
 	phone_number   string `json:"phone_number"`
@@ -33,7 +34,6 @@ type JsonResponse struct {
 	Data    []details `json:"data"`
 	Message string    `json:"message"`
 }
-
 func main() {
 	router := mux.NewRouter()
 	// Get all details
@@ -49,31 +49,31 @@ func main() {
 	router.HandleFunc("/details/", Deletedetailss).Methods("DELETE")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
-
 // Get all details
 //noinspection ALL
 func Getdetails(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
 	printMessage("Getting all details...")
 	// Get all details from details table that don't have detailsID = "1"
-	rows, err := db.Query(`SELECT * FROM details`)
+	rows, err := db.Query("SELECT * FROM details where new_id <> $1", "1")
+	printMessage("fetching all details...")
 	checkErr(err)
 	var det []details
 	for rows.Next() {
-		var name string
-		var source string
-		var phone_number string
-		var experience string
-		var ctc string
-		var ectc string
-		var np string
-		var status string
-		var interview_date string
-		var email string       //required
-		var applied_for string //required`
-		err = rows.Scan(&name, &source, &phone_number, &experience, &ctc, &ectc, &np, &status, &interview_date, &email, &applied_for)
+		var _name string
+		var _source string
+		var _phone_number string
+		var _experience string
+		var _ctc string
+		var _ectc string
+		var _np string
+		var _status string
+		var _interview_date string
+		var _email string       //required
+		var _applied_for string //required`
+		err = rows.Scan(&_name, &_source, &_phone_number, &_experience, &_ctc, &_ectc, &_np, &_status, &_interview_date, &_email, &_applied_for)
 		checkErr(err)
-		det = append(det, details{name: name, source: source, phone_number: phone_number, experience: experience, ctc: ctc, ectc: ectc, np: np, status: status, interview_date: interview_date, email: email, applied_for: applied_for})
+		det = append(det, details{name: _name, source: _source, phone_number: _phone_number, experience: _experience, ctc: _ctc, ectc: _ectc, np: _np, status: _status, interview_date: _interview_date, email: _email, applied_for: _applied_for})
 	}
 	var response = JsonResponse{Type: "success", Data: det}
 	json.NewEncoder(w).Encode(response)

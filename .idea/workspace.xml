@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="982b80b4-54cc-4906-8f86-d6e6ae01c9aa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/new_main.go" beforeDir="false" afterPath="$PROJECT_DIR$/new_main.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,10 +16,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/new_main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="72" column="42" lean-forward="true" selection-start-line="72" selection-start-column="42" selection-end-line="72" selection-end-column="42" />
+            <state relative-caret-position="466">
+              <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
               <folding>
                 <element signature="e#13#139#0" expanded="true" />
+                <element signature="n#!!block;n#main#1" />
                 <element signature="n#!!block;n#Deletedetails#0" />
                 <element signature="n#!!block;n#Deletedetailss#0" />
                 <element signature="n#!!block;n#Updatedetails#0" />
@@ -40,8 +42,8 @@
     <findStrings>
       <find>book</find>
       <find>expirence</find>
-      <find>scan</find>
       <find>$1</find>
+      <find>scan</find>
     </findStrings>
     <replaceStrings>
       <replace>details</replace>
@@ -67,7 +69,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="-7" />
     <option name="width" value="697" />
     <option name="height" value="735" />
@@ -167,11 +169,11 @@
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="676" y="0" width="697" height="735" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15204236" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.15204236" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -181,7 +183,7 @@
       <window_info anchor="bottom" id="Event Log" sideWeight="0.25037822" side_tool="true" weight="0.79541737" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7496218" visible="true" weight="0.05400982" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7496218" visible="true" weight="0.18604651" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -243,10 +245,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/new_main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="72" column="42" lean-forward="true" selection-start-line="72" selection-start-column="42" selection-end-line="72" selection-end-column="42" />
+        <state relative-caret-position="466">
+          <caret line="72" column="37" selection-start-line="72" selection-start-column="37" selection-end-line="72" selection-end-column="37" />
           <folding>
             <element signature="e#13#139#0" expanded="true" />
+            <element signature="n#!!block;n#main#1" />
             <element signature="n#!!block;n#Deletedetails#0" />
             <element signature="n#!!block;n#Deletedetailss#0" />
             <element signature="n#!!block;n#Updatedetails#0" />
