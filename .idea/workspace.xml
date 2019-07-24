@@ -15,12 +15,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/new_main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="58" column="65" lean-forward="true" selection-start-line="58" selection-start-column="65" selection-end-line="58" selection-end-column="65" />
+            <state relative-caret-position="170">
+              <caret line="72" column="42" lean-forward="true" selection-start-line="72" selection-start-column="42" selection-end-line="72" selection-end-column="42" />
               <folding>
                 <element signature="e#13#139#0" expanded="true" />
                 <element signature="n#!!block;n#Deletedetails#0" />
                 <element signature="n#!!block;n#Deletedetailss#0" />
+                <element signature="n#!!block;n#Updatedetails#0" />
               </folding>
             </state>
           </provider>
@@ -170,7 +171,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15204236" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15204236" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" />
@@ -180,7 +181,7 @@
       <window_info anchor="bottom" id="Event Log" sideWeight="0.25037822" side_tool="true" weight="0.79541737" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7496218" visible="true" weight="0.34860885" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.7496218" visible="true" weight="0.05400982" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -242,12 +243,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/new_main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="58" column="65" lean-forward="true" selection-start-line="58" selection-start-column="65" selection-end-line="58" selection-end-column="65" />
+        <state relative-caret-position="170">
+          <caret line="72" column="42" lean-forward="true" selection-start-line="72" selection-start-column="42" selection-end-line="72" selection-end-column="42" />
           <folding>
             <element signature="e#13#139#0" expanded="true" />
             <element signature="n#!!block;n#Deletedetails#0" />
             <element signature="n#!!block;n#Deletedetailss#0" />
+            <element signature="n#!!block;n#Updatedetails#0" />
           </folding>
         </state>
       </provider>
