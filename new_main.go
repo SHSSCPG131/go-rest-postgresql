@@ -1,5 +1,4 @@
 package main
-
 import (
 	"database/sql"
 	"encoding/json"
@@ -11,13 +10,12 @@ import (
 )
 //noinspection ALL
 const (
-	DB_USER     = "ADMIN"
+	DB_USER     = "postgres"
 	DB_PASSWORD = "12345"
-	DB_NAME     = "details"
+	DB_NAME     = "dvdrental"
 )
 //noinspection ALL
 type details struct {
-	id             string `json:"id"`
 	name           string `json:"name"`
 	source         string `json:"source"`
 	phone_number   string `json:"phone_number"`
@@ -58,13 +56,10 @@ func Getdetails(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
 	printMessage("Getting all details...")
 	// Get all details from details table that don't have detailsID = "1"
-	rows, err := db.Query("SELECT * FROM details where id <> $1", "1")
+	rows, err := db.Query("SELECT * FROM details)
 	checkErr(err)
-	var main_data []details
-	// var response []JsonResponse
-	// Foreach details
+	var det []details
 	for rows.Next() {
-		var id string
 		var name string
 		var source string
 		var phone_number string
@@ -76,19 +71,18 @@ func Getdetails(w http.ResponseWriter, r *http.Request) {
 		var interview_date string
 		var email string       //required
 		var applied_for string //required`
-		err = rows.Scan(&id, &name, &source, &phone_number, &experience, &ctc, &ectc, &np, &status, &interview_date, &email, &applied_for)
+		err = rows.Scan(&name, &source, &phone_number, &experience, &ctc, &ectc, &np, &status, &interview_date, &email, &applied_for)
 		checkErr(err)
-		main_data = append(main_data, details{id: id, name: name, source: source, phone_number: phone_number, experience: experience, ctc: ctc, ectc: ectc, np: np, status: status, interview_date: interview_date, email: email, applied_for: applied_for})
+		det = append(det, details{name: name, source: source, phone_number: phone_number, experience: experience, ctc: ctc, ectc: ectc, np: np, status: status, interview_date: interview_date, email: email, applied_for: applied_for})
 	}
-	var response = JsonResponse{Type: "success", Data: main_data}
+	var response = JsonResponse{Type: "success", Data: det}
 	json.NewEncoder(w).Encode(response)
 }
 
 // Create a details
 //noinspection ALL
 func Createdetails(w http.ResponseWriter, r *http.Request) {
-	details_ID := r.FormValue("id")
-	details_Name := r.FormValue("name")
+	details_name := r.FormValue("name")
 	details_source := r.FormValue("source")
 	details_phone_number := r.FormValue("phone_number")
 	details_experience := r.FormValue("experience")
@@ -100,42 +94,41 @@ func Createdetails(w http.ResponseWriter, r *http.Request) {
 	details_email := r.FormValue("email")
 	details_applied_for := r.FormValue("applied_for")
 	var response = JsonResponse{}
-	if details_ID == "" || details_Name == "" {
-		response = JsonResponse{Type: "error", Message: "You are missing detailsID or detailsName parameter."}
+	if details_name == "" {
+		response = JsonResponse{Type: "error", Message: "You are missing detailsName parameter."}
 	} else {
 		db := setupDB()
 		printMessage("Inserting details into DB")
-		fmt.Println("Inserting new details with ID: " + details_ID + " and name: " + details_Name)
 		var lastInsertID int
-		err := db.QueryRow("INSERT INTO details(id,name,source,phone_number,experience,ctc,ectc,np,status,interview_date,email,applied_for) VALUES($1, $2) returning id;", details_ID, details_Name, details_source, details_phone_number, details_experience, details_ctc, details_ectc, details_np, details_status, details_interview_date, details_email, details_applied_for).Scan(&lastInsertID)
+		err := db.QueryRow("INSERT INTO details(details_name,details_source,details_phone_number,details_experience,details_ctc,details_ectc,details_np,details_status,details_interview_date,details_email,details_applied_for) VALUES($1, $2,$3,$4,$5,$6,$7,$8,$9,$10) returning id;",details_name, details_source, details_phone_number, details_experience, details_ctc, details_ectc, details_np, details_status, details_interview_date, details_email, details_applied_for).Scan(&lastInsertID)
 		checkErr(err)
 		response = JsonResponse{Type: "success", Message: "The details has been inserted successfully!"}
 	}
 	json.NewEncoder(w).Encode(response)
 }
 
-// Delete a details
+// Delete a details//checked
 func Deletedetails(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	detailsID := params["detailsid"]
+	detail_name := params["name"]
 	var response = JsonResponse{}
-	if detailsID == "" {
+	if detail_name == "" {
 		response = JsonResponse{Type: "error", Message: "You are missing detailsID parameter."}
 	} else {
 		db := setupDB()
 		printMessage("Deleting details from DB")
-		_, err := db.Exec("DELETE FROM detailss where detailsID = $1", detailsID)
+		_, err := db.Exec("DELETE FROM detailss where name = &1", detail_name)
 		checkErr(err)
 		response = JsonResponse{Type: "success", Message: "The details has been deleted successfully!"}
 	}
 	json.NewEncoder(w).Encode(response)
 }
 
-// Delete all detailss
+// Delete all detailss//chekecd
 func Deletedetailss(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
 	printMessage("Deleting all detailss...")
-	_, err := db.Exec("DELETE FROM detailss")
+	_, err := db.Exec("DELETE FROM details")
 	checkErr(err)
 	printMessage("All detailss have been deleted successfully!")
 	var response = JsonResponse{Type: "success", Message: "All detailss have been deleted successfully!"}
@@ -143,10 +136,9 @@ func Deletedetailss(w http.ResponseWriter, r *http.Request) {
 }
 
 //Update a details
-//noinspection ALL
+//noinspection ALL//checked all
 func Updatedetails(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	detailsID := params["id"]
 	details_name := params["name"]
 	details_source := params["source"]
 	details_phone_number := params["phone_number"]
@@ -160,18 +152,16 @@ func Updatedetails(w http.ResponseWriter, r *http.Request) {
 	details_applied_for := params["applied_for"]
 	//db:=setupDB()
 	var response = JsonResponse{}
-	if detailsID == "" {
-		response = JsonResponse{Type: "error", Message: "You are missing detailsID parameter."}
+	if details_name == "" {
 	} else {
 		db := setupDB()
 		printMessage("Updating details in DB")
-		_, err := db.Exec(`UPDATE details set name=$1,source=$2 ,phone_number=$3, experience=$4, ctc=$5 ,ectc=$6,np=$7,status=$8,interview_date=$9,email=$10,applied_for=$11,where id=$12 RETURNING id`, details_name, details_source, details_phone_number, details_experience, details_ctc, details_ectc, details_np, details_status, details_interview_date, details_email, details_applied_for)
+		_, err := db.Exec(`UPDATE details set name=$1,source=$2 ,phone_number=$3, experience=$4, ctc=$5 ,ectc=$6,np=$7,status=$8,interview_date=$9,email=$10,applied_for=$11,where name=$12 RETURNING name`, details_source, details_phone_number, details_experience, details_ctc, details_ectc, details_np, details_status, details_interview_date, details_email, details_applied_for)
 		checkErr(err)
 		response = JsonResponse{Type: "success", Message: "The details has been updated successfully!"}
 	}
 	json.NewEncoder(w).Encode(response)
 }
-
 //Get details for a single email
 //noinspection ALL
 func Getdetailsbyemail(w http.ResponseWriter, r *http.Request) {
