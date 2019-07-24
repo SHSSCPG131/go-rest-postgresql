@@ -56,7 +56,7 @@ func Getdetails(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
 	printMessage("Getting all details...")
 	// Get all details from details table that don't have detailsID = "1"
-	rows, err := db.Query("SELECT * FROM details)
+	rows, err := db.Query("SELECT * FROM details where name 1=1")
 	checkErr(err)
 	var det []details
 	for rows.Next() {
