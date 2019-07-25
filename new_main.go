@@ -16,18 +16,18 @@ const (
 )
 //noinspection ALL
 type new_details struct {
-	id			int `json:"id"`
-	name           string `json:"name"`
-	source         string `json:"source"`
-	phone_number   string `json:"phone_number"`
-	experience      string `json:"experience"`
-	ctc            string `json:"ctc"`
-	ectc           string `json:"ectc"`
-	np             string `json:"np"`
-	status         string `json:"status"`
-	interview_date string `json:"interview_date"`
-	email          string `json:"email"`       //required
-	applied_for    string `json:"applied_for"` //required`
+	Id			int `json:"id"`
+	Name           string `json:"name"`
+	Source         string `json:"source"`
+	Phone_number   string `json:"phone_number"`
+	Experience      string `json:"experience"`
+	Ctc            string `json:"ctc"`
+	Ectc           string `json:"ectc"`
+	Np             string `json:"np"`
+	Status         string `json:"status"`
+	Interview_date string `json:"interview_date"`
+	Email          string `json:"email"`       //required
+	Applied_for    string `json:"applied_for"` //required`
 }
 type JsonResponse struct {
 	Type    string    `json:"type"`
@@ -43,7 +43,7 @@ func main() {
 	router.HandleFunc("/new_details/", Createnew_details).Methods("POST")
 	// Delete a specific new_details by the new_detailsID
 	router.HandleFunc("/new_details/{detail_email}", Getnew_detailsbyemail).Methods("POST")
-	router.HandleFunc("/new_details/{new_detailsid}", Deletenew_details).Methods("DELETE")
+	//router.HandleFunc("/new_details/{new_detailsid}", Deletenew_details).Methods("DELETE")
 	// Delete all new_detailss
 	router.HandleFunc("/new_details/{new_detailsid}", Updatenew_details).Methods("PUT")
 	router.HandleFunc("/new_details/", Deletenew_detailss).Methods("DELETE")
@@ -74,15 +74,14 @@ func Getnew_details(w http.ResponseWriter, r *http.Request) {
 		var _applied_for string //required`
 		err = rows.Scan(&_id,&_name, &_source, &_phone_number, &_experience, &_ctc, &_ectc, &_np, &_status, &_interview_date, &_email, &_applied_for)
 		checkErr(err)
-		det = append(det, new_details{id:_id,name: _name, source: _source, phone_number: _phone_number, experience: _experience, ctc: _ctc, ectc: _ectc, np: _np, status: _status, interview_date: _interview_date, email: _email, applied_for: _applied_for})
+		det = append(det, new_details{Id:_id,Name: _name, Source: _source, Phone_number: _phone_number, Experience: _experience, Ctc: _ctc, Ectc: _ectc, Np: _np, Status: _status, Interview_date: _interview_date, Email: _email, Applied_for: _applied_for})
 	}
 	var response = JsonResponse{Type: "success", Data: det}
 	json.NewEncoder(w).Encode(response)
 }
-
 // Create a new_details
-//noinspection ALL
 func Createnew_details(w http.ResponseWriter, r *http.Request) {
+	new_details_id:=r.FormValue("id")
 	new_details_name := r.FormValue("name")
 	new_details_source := r.FormValue("source")
 	new_details_phone_number := r.FormValue("phone_number")
@@ -95,19 +94,18 @@ func Createnew_details(w http.ResponseWriter, r *http.Request) {
 	new_details_email := r.FormValue("email")
 	new_details_applied_for := r.FormValue("applied_for")
 	var response = JsonResponse{}
-	if new_details_name == "" {
-		response = JsonResponse{Type: "error", Message: "You are missing new_detailsName parameter."}
+	if new_details_name == "" || new_details_id==""{
+		response = JsonResponse{Type: "error", Message: "You are missing Name and ID parameter."}
 	} else {
 		db := setupDB()
-		printMessage("Inserting new_details into DB")
+		printMessage("Inserting new_details into DB" + new_details_id)
 		var lastInsertID int
-		err := db.QueryRow("INSERT INTO new_details(new_details_name,new_details_source,new_details_phone_number,new_details_experience,new_details_ctc,new_details_ectc,new_details_np,new_details_status,new_details_interview_date,new_details_email,new_details_applied_for) VALUES($1, $2,$3,$4,$5,$6,$7,$8,$9,$10) returning id;",new_details_name, new_details_source, new_details_phone_number, new_details_experience, new_details_ctc, new_details_ectc, new_details_np, new_details_status, new_details_interview_date, new_details_email, new_details_applied_for).Scan(&lastInsertID)
+		err := db.QueryRow("INSERT INTO new_details(new_details_id,new_details_email,new_details_applied_for,new_details_name,new_details_source,new_details_phone_number,new_details_experience,new_details_ctc,new_details_ectc,new_details_np,new_details_status,new_details_interview_date) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) returning id;",new_details_id,new_details_email,new_details_applied_for,new_details_name, new_details_source, new_details_phone_number, new_details_experience, new_details_ctc, new_details_ectc, new_details_np, new_details_status, new_details_interview_date).Scan(&lastInsertID)
 		checkErr(err)
 		response = JsonResponse{Type: "success", Message: "The new_details has been inserted successfully!"}
 	}
 	json.NewEncoder(w).Encode(response)
 }
-
 // Delete a new_details//checked
 func Deletenew_details(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -124,7 +122,6 @@ func Deletenew_details(w http.ResponseWriter, r *http.Request) {
 	}
 	json.NewEncoder(w).Encode(response)
 }
-
 // Delete all new_detailss//chekecd
 func Deletenew_detailss(w http.ResponseWriter, r *http.Request) {
 	db := setupDB()
@@ -135,7 +132,6 @@ func Deletenew_detailss(w http.ResponseWriter, r *http.Request) {
 	var response = JsonResponse{Type: "success", Message: "All new_detailss have been deleted successfully!"}
 	json.NewEncoder(w).Encode(response)
 }
-
 //Update a new_details
 //noinspection ALL//checked all
 func Updatenew_details(w http.ResponseWriter, r *http.Request) {
@@ -179,10 +175,10 @@ func Getnew_detailsbyemail(w http.ResponseWriter, r *http.Request) {
 		rows, err := db.Query("SELECT name FROM new_details where email = $1", detail_email)
 		checkErr(err)
 		for rows.Next() {
-			var name string
-			err = rows.Scan(&name)
+			var _name string
+			err = rows.Scan(&_name)
 			checkErr(err)
-			main_data = append(main_data, new_details{name: name})
+			main_data = append(main_data, new_details{Name: _name})
 		}
 	}
 	response = JsonResponse{Type: "success", Data: main_data}
